@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public Transform head;
     public Camera camera;
     public Transform hand;
+    public Light flashlight;
 
     [Header("Configuration")]
     public float walkSpeed;
@@ -18,11 +19,23 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        flashlight.enabled = false;
     }
 
     void Update()
     {
         transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * 2f);
+        if(flashlight.enabled == false && Input.GetMouseButtonDown(0))
+        {
+            flashlight.enabled = true;
+        }
+        else if(flashlight.enabled == true && Input.GetMouseButtonDown(0))
+        {
+            flashlight.enabled = false;
+        }
+        {
+            
+        }
     }
 
     void FixedUpdate()

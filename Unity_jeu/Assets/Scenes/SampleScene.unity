@@ -156,6 +156,7 @@ MonoBehaviour:
   head: {fileID: 261262275}
   camera: {fileID: 1222695527}
   hand: {fileID: 1962985466}
+  flashlight: {fileID: 0}
   walkSpeed: 5
   runSpeed: 10
 --- !u!54 &172152505
