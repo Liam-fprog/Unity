@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public Camera camera;
     public Transform hand;
     public Light flashlight;
+    public SphereCollider soundCollision;
 
     [Header("Configuration")]
     public float walkSpeed;
@@ -20,22 +21,38 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         flashlight.enabled = false;
+
+        soundCollision = gameObject.AddComponent<SphereCollider>();
+        soundCollision.radius = 0f;
     }
 
     void Update()
     {
         transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * 2f);
-        if(flashlight.enabled == false && Input.GetMouseButtonDown(0))
+        if (flashlight.enabled == false && Input.GetMouseButtonDown(0))
         {
             flashlight.enabled = true;
         }
-        else if(flashlight.enabled == true && Input.GetMouseButtonDown(0))
+        else if (flashlight.enabled == true && Input.GetMouseButtonDown(0))
         {
             flashlight.enabled = false;
         }
         {
-            
+
         }
+
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Z))
+        {
+            soundCollision.radius = 30f;
+        }else if (Input.GetKey(KeyCode.Z))
+        {
+            soundCollision.radius = 15f;
+        }
+        else
+        {
+            soundCollision.radius = 0f;
+        }
+        
     }
 
     void FixedUpdate()
