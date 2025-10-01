@@ -155,6 +155,7 @@ MonoBehaviour:
   rb: {fileID: 172152505}
   head: {fileID: 261262275}
   camera: {fileID: 1222695527}
+  hand: {fileID: 1962985466}
   walkSpeed: 5
   runSpeed: 10
 --- !u!54 &172152505
@@ -860,7 +861,7 @@ Transform:
   m_GameObject: {fileID: 851762029}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.46, y: 0, z: 0.49}
+  m_LocalPosition: {x: 0.46, y: 0.317, z: 0.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -900,8 +901,8 @@ Light:
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
-  m_Range: 10
+  m_Intensity: 100
+  m_Range: 11.798
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
