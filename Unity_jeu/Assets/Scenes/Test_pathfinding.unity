@@ -240,6 +240,7 @@ GameObject:
   - component: {fileID: 83106467}
   - component: {fileID: 83106466}
   - component: {fileID: 83106468}
+  - component: {fileID: 83106469}
   m_Layer: 0
   m_Name: A*
   m_TagString: Untagged
@@ -259,7 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41fdbc624a3d71d4294b5022b1148cff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onlyDisplayPathGizmos: 1
+  displayGridGizmos: 0
   player: {fileID: 2089455128}
   unwalkableMask:
     serializedVersion: 2
@@ -293,8 +294,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43601987069d35b4aa3e04afc0817264, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seeker: {fileID: 2089455128}
-  target: {fileID: 25461731}
+--- !u!114 &83106469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83106465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e15f000932090844b8b76056e7dfb49d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &128244387
 GameObject:
   m_ObjectHideFlags: 0
@@ -1281,6 +1292,7 @@ GameObject:
   - component: {fileID: 2089455128}
   - component: {fileID: 2089455127}
   - component: {fileID: 2089455126}
+  - component: {fileID: 2089455129}
   - component: {fileID: 2089455125}
   m_Layer: 0
   m_Name: Seeker
@@ -1374,12 +1386,26 @@ Transform:
   m_GameObject: {fileID: 2089455124}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.26, y: 1, z: 9.87}
+  m_LocalPosition: {x: 9.02, y: 1, z: 8.64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2089455129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2089455124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d38c18ca01e82204fa8c08fa6a73bfb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 25461731}
+  speed: 0.1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
