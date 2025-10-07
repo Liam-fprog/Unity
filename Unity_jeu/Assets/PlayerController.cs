@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
     public Rigidbody rb;
     public Transform head;
     public Camera camera;
+    public Transform hand;
+    public Light flashlight;
+    public SphereCollider soundCollision;
 
     [Header("Configuration")]
     public float walkSpeed;
@@ -17,25 +20,53 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        flashlight.enabled = false;
+
+        soundCollision = gameObject.AddComponent<SphereCollider>();
+        soundCollision.radius = 0f;
     }
 
     void Update()
     {
         transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * 2f);
+        if (flashlight.enabled == false && Input.GetMouseButtonDown(0))
+        {
+            flashlight.enabled = true;
+        }
+        else if (flashlight.enabled == true && Input.GetMouseButtonDown(0))
+        {
+            flashlight.enabled = false;
+        }
+        {
+
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Z))
+        {
+            soundCollision.radius = 30f;
+        }
+        else if (Input.GetKey(KeyCode.Z))
+        {
+            soundCollision.radius = 15f;
+        }
+        else
+        {
+            soundCollision.radius = 0f;
+        }
+
     }
 
     void FixedUpdate()
     {
         float speed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed;
 
-        // Récupération des inputs
         float inputX = Input.GetAxis("Horizontal");
         float inputZ = Input.GetAxis("Vertical");
 
-        // Calcul direction en fonction de l'orientation du joueur
+        //hand.localRotation = Quaternion.Euler(inputX, inputZ, 0);
+
         Vector3 move = (transform.forward * inputZ + transform.right * inputX).normalized * speed;
 
-        // On garde la vitesse verticale (chute / saut éventuel)
         Vector3 newVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
 
         rb.linearVelocity = newVelocity;
@@ -47,6 +78,7 @@ public class PlayerController : MonoBehaviour
         e.x -= Input.GetAxis("Mouse Y") * 2f;
         e.x = RestrictAngle(e.x, -85f, 85f);
         head.eulerAngles = e;
+        hand.rotation = head.rotation;
     }
 
     public static float RestrictAngle(float angle, float angleMin, float angleMax)
