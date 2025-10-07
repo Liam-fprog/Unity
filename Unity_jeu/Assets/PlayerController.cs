@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
-
     [Header("References")]
     public Rigidbody rb;
     public Transform head;
@@ -14,38 +13,116 @@ public class PlayerController : MonoBehaviour
     public SphereCollider soundCollision;
 
     [Header("Configuration")]
-    public float walkSpeed;
-    public float runSpeed;
+    public float walkSpeed = 3f;
+    public float runSpeed = 6f;
+    public float mouseSensitivity = 2f;
+
+    private float verticalLookRotation = 0f;
+
     void Start()
     {
+        // Gestion du curseur
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        flashlight.enabled = false;
 
+        // Lampe éteinte au départ
+        if (flashlight != null)
+            flashlight.enabled = false;
+
+        // Ajout du collider de bruit
         soundCollision = gameObject.AddComponent<SphereCollider>();
+        soundCollision.isTrigger = true;
         soundCollision.radius = 0f;
+
+        // Vérifie que le Rigidbody est bien configuré
+        if (rb != null)
+        {
+            rb.useGravity = true;
+            rb.isKinematic = false;
+            rb.freezeRotation = true;
+        }
     }
 
     void Update()
     {
-        transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * 2f);
-        if (flashlight.enabled == false && Input.GetMouseButtonDown(0))
-        {
-            flashlight.enabled = true;
-        }
-        else if (flashlight.enabled == true && Input.GetMouseButtonDown(0))
-        {
-            flashlight.enabled = false;
-        }
-        {
+        HandleMouseLook();
+        HandleFlashlight();
+        HandleSoundRadius();
+    }
 
+    void FixedUpdate()
+    {
+        HandleMovement();
+    }
+
+    void HandleMovement()
+    {
+        if (rb == null) return;
+
+        float speed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed;
+
+        // Entrées clavier (AZERTY)
+        float inputX = 0f;
+        if (Input.GetKey(KeyCode.D)) inputX += 1f;
+        if (Input.GetKey(KeyCode.A)) inputX -= 1f;
+
+        float inputZ = 0f;
+        if (Input.GetKey(KeyCode.W)) inputZ += 1f;
+        if (Input.GetKey(KeyCode.S)) inputZ -= 1f;
+
+        // Direction locale du joueur
+        Vector3 moveDir = (transform.forward * inputZ + transform.right * inputX).normalized;
+
+        // Vitesse actuelle
+        Vector3 currentVel = rb.linearVelocity;
+
+        // Nouvelle vitesse (on garde la composante Y pour la gravité)
+        Vector3 targetVel = new Vector3(moveDir.x * speed, currentVel.y, moveDir.z * speed);
+
+        rb.linearVelocity = targetVel;
+    }
+
+    void HandleMouseLook()
+    {
+        // Rotation horizontale du corps (gauche/droite)
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        transform.Rotate(Vector3.up * mouseX);
+
+        // Rotation verticale de la tête
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+        verticalLookRotation -= mouseY;
+        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -85f, 85f);
+
+        if (head != null)
+        {
+            head.localRotation = Quaternion.Euler(verticalLookRotation, 0f, 0f);
         }
 
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Z))
+        if (hand != null && head != null)
+        {
+            hand.rotation = head.rotation;
+        }
+    }
+
+    void HandleFlashlight()
+    {
+        if (flashlight == null) return;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            flashlight.enabled = !flashlight.enabled;
+        }
+    }
+
+    void HandleSoundRadius()
+    {
+        if (soundCollision == null) return;
+
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W))
         {
             soundCollision.radius = 30f;
         }
-        else if (Input.GetKey(KeyCode.Z))
+        else if (Input.GetKey(KeyCode.W))
         {
             soundCollision.radius = 15f;
         }
@@ -53,47 +130,5 @@ public class PlayerController : MonoBehaviour
         {
             soundCollision.radius = 0f;
         }
-
-    }
-
-    void FixedUpdate()
-    {
-        float speed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed;
-
-        float inputX = Input.GetAxis("Horizontal");
-        float inputZ = Input.GetAxis("Vertical");
-
-        //hand.localRotation = Quaternion.Euler(inputX, inputZ, 0);
-
-        Vector3 move = (transform.forward * inputZ + transform.right * inputX).normalized * speed;
-
-        Vector3 newVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
-
-        rb.linearVelocity = newVelocity;
-    }
-
-    void LateUpdate()
-    {
-        Vector3 e = head.eulerAngles;
-        e.x -= Input.GetAxis("Mouse Y") * 2f;
-        e.x = RestrictAngle(e.x, -85f, 85f);
-        head.eulerAngles = e;
-        hand.rotation = head.rotation;
-    }
-
-    public static float RestrictAngle(float angle, float angleMin, float angleMax)
-    {
-        if (angle > 180)
-            angle -= 360;
-        else if (angle < -180)
-            angle += 360;
-
-        if (angle > angleMax)
-            angle = angleMax;
-        if (angle < angleMin)
-            angle = angleMin;
-
-        return angle;
-
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System;
+using Debug = UnityEngine.Debug;
 
 public class Pathfinding : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class Pathfinding : MonoBehaviour
 
     public void FindPath(PathRequest request, Action<PathResult> callback)
     {
+        Debug.Log($"[Pathfinding] FindPath called from {request.pathStart} to {request.pathEnd}");
+
         Stopwatch sw = new Stopwatch();
         sw.Start();
 
@@ -26,6 +29,14 @@ public class Pathfinding : MonoBehaviour
 
         Node startNode = grid.NodeFromWorldPoint(request.pathStart);
         Node targetNode = grid.NodeFromWorldPoint(request.pathEnd);
+
+        Debug.Log($"[PF] Start node: ({startNode.gridX},{startNode.gridY}) walkable={startNode.walkable}");
+        Debug.Log($"[PF] Target node: ({targetNode.gridX},{targetNode.gridY}) walkable={targetNode.walkable}");
+
+        if (!startNode.walkable || !targetNode.walkable)
+        {
+            Debug.LogWarning("[PF] Start or Target node NOT walkable ? aucun path ne sera trouvé.");
+        }
 
         if (startNode.walkable && targetNode.walkable)
         {
