@@ -3117,6 +3117,9 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3825094725956897894, guid: 7e8e99f7e48f1254c89a4873c6a15dac, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1523863690}
+    - targetCorrespondingSourceObject: {fileID: 3825094725956897894, guid: 7e8e99f7e48f1254c89a4873c6a15dac, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1523863686}
   m_SourcePrefab: {fileID: 100100000, guid: 7e8e99f7e48f1254c89a4873c6a15dac, type: 3}
 --- !u!4 &611923393 stripped
@@ -5781,6 +5784,11 @@ Light:
   m_CorrespondingSourceObject: {fileID: 8355036225260056518, guid: aaa08c57d7040754d8b76570c98bed03, type: 3}
   m_PrefabInstance: {fileID: 511629621}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1222531361 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6737918468542803476, guid: aaa08c57d7040754d8b76570c98bed03, type: 3}
+  m_PrefabInstance: {fileID: 511629621}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1223288351 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7905877887656343099, guid: 5042044e3baad404b911e3954ff23aa1, type: 3}
@@ -6358,6 +6366,11 @@ MonoBehaviour:
 --- !u!54 &1403315986 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 5163898168866858046, guid: aaa08c57d7040754d8b76570c98bed03, type: 3}
+  m_PrefabInstance: {fileID: 511629621}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1403315990 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6199992140869608335, guid: aaa08c57d7040754d8b76570c98bed03, type: 3}
   m_PrefabInstance: {fileID: 511629621}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1416792651 stripped
@@ -7188,6 +7201,30 @@ MonoBehaviour:
   TurnSpeed: 3
   turnDst: 5
   stoppingDst: 10
+--- !u!114 &1523863690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523863681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e36ebcfdd38e630469beececf8c76813, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: 1523863686}
+  player: {fileID: 1403315990}
+  randomTarget: {fileID: 369701499}
+  playerLight: {fileID: 1222531361}
+  useSpotLightValues: 1
+  coneAngle: 45
+  coneRange: 12
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+  aggroPersistSeconds: 5
+  debugLogs: 1
 --- !u!1001 &1530945354
 PrefabInstance:
   m_ObjectHideFlags: 0
