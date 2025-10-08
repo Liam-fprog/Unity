@@ -5321,7 +5321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5197669155535763048, guid: b52a229ed4cd89849a5e18f518c13fe4, type: 3}
       propertyPath: displayGridGizmos
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5197669155535763048, guid: b52a229ed4cd89849a5e18f518c13fe4, type: 3}
       propertyPath: obstacleProximityPenalty
