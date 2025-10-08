@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
         HandleMouseLook();
         HandleFlashlight();
         HandleSoundRadius();
+        Debug.Log("Rayon actuel : " + soundCollision.radius);
     }
 
     void FixedUpdate()
@@ -61,7 +62,6 @@ public class PlayerController : MonoBehaviour
 
         float speed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed;
 
-        // Entrées clavier (AZERTY)
         float inputX = 0f;
         if (Input.GetKey(KeyCode.D)) inputX += 1f;
         if (Input.GetKey(KeyCode.A)) inputX -= 1f;
@@ -70,13 +70,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.W)) inputZ += 1f;
         if (Input.GetKey(KeyCode.S)) inputZ -= 1f;
 
-        // Direction locale du joueur
         Vector3 moveDir = (transform.forward * inputZ + transform.right * inputX).normalized;
 
-        // Vitesse actuelle
         Vector3 currentVel = rb.linearVelocity;
 
-        // Nouvelle vitesse (on garde la composante Y pour la gravité)
         Vector3 targetVel = new Vector3(moveDir.x * speed, currentVel.y, moveDir.z * speed);
 
         rb.linearVelocity = targetVel;
