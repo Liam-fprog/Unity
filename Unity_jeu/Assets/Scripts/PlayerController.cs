@@ -4,64 +4,128 @@ using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
-
     [Header("References")]
     public Rigidbody rb;
     public Transform head;
     public Camera camera;
+    public Transform hand;
+    public Light flashlight;
+    public SphereCollider soundCollision;
 
     [Header("Configuration")]
-    public float walkSpeed;
-    public float runSpeed;
+    public float walkSpeed = 3f;
+    public float runSpeed = 6f;
+    public float mouseSensitivity = 2f;
+
+    private float verticalLookRotation = 0f;
+
     void Start()
     {
+        // Gestion du curseur
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        // Lampe √©teinte au d√©part
+        if (flashlight != null)
+            flashlight.enabled = false;
+
+        // Ajout du collider de bruit
+        soundCollision = gameObject.AddComponent<SphereCollider>();
+        soundCollision.isTrigger = true;
+        soundCollision.radius = 0f;
+
+        // V√©rifie que le Rigidbody est bien configur√©
+        if (rb != null)
+        {
+            rb.useGravity = true;
+            rb.isKinematic = false;
+            rb.freezeRotation = true;
+        }
     }
 
     void Update()
     {
-        transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * 2f);
+        HandleMouseLook();
+        HandleFlashlight();
+        HandleSoundRadius();
+        Debug.Log("Rayon actuel : " + soundCollision.radius);
     }
 
     void FixedUpdate()
     {
+        HandleMovement();
+    }
+
+    void HandleMovement()
+    {
+        if (rb == null) return;
+
         float speed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed;
 
-        // RÈcupÈration des inputs
-        float inputX = Input.GetAxis("Horizontal");
-        float inputZ = Input.GetAxis("Vertical");
+        float inputX = 0f;
+        if (Input.GetKey(KeyCode.D)) inputX += 1f;
+        if (Input.GetKey(KeyCode.A)) inputX -= 1f;
 
-        // Calcul direction en fonction de l'orientation du joueur
-        Vector3 move = (transform.forward * inputZ + transform.right * inputX).normalized * speed;
+        float inputZ = 0f;
+        if (Input.GetKey(KeyCode.W)) inputZ += 1f;
+        if (Input.GetKey(KeyCode.S)) inputZ -= 1f;
 
-        // On garde la vitesse verticale (chute / saut Èventuel)
-        Vector3 newVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
+        Vector3 moveDir = (transform.forward * inputZ + transform.right * inputX).normalized;
 
-        rb.linearVelocity = newVelocity;
+        Vector3 currentVel = rb.linearVelocity;
+
+        Vector3 targetVel = new Vector3(moveDir.x * speed, currentVel.y, moveDir.z * speed);
+
+        rb.linearVelocity = targetVel;
     }
 
-    void LateUpdate()
+    void HandleMouseLook()
     {
-        Vector3 e = head.eulerAngles;
-        e.x -= Input.GetAxis("Mouse Y") * 2f;
-        e.x = RestrictAngle(e.x, -85f, 85f);
-        head.eulerAngles = e;
+        // Rotation horizontale du corps (gauche/droite)
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        transform.Rotate(Vector3.up * mouseX);
+
+        // Rotation verticale de la t√™te
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+        verticalLookRotation -= mouseY;
+        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -85f, 85f);
+
+        if (head != null)
+        {
+            head.localRotation = Quaternion.Euler(verticalLookRotation, 0f, 0f);
+        }
+
+        if (hand != null && head != null)
+        {
+            hand.rotation = head.rotation;
+        }
     }
 
-    public static float RestrictAngle(float angle, float angleMin, float angleMax)
+    void HandleFlashlight()
     {
-        if (angle > 180)
-            angle -= 360;
-        else if (angle < -180)
-            angle += 360;
+        if (flashlight == null) return;
 
-        if (angle > angleMax)
-            angle = angleMax;
-        if (angle < angleMin)
-            angle = angleMin;
+        if (Input.GetMouseButtonDown(0))
+        {
+            flashlight.enabled = !flashlight.enabled;
+        }
+    }
 
-        return angle;
+    void HandleSoundRadius()
+    {
+        if (soundCollision == null) return;
 
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W))
+        {
+            soundCollision.radius = 30f;
+        }
+        else if (Input.GetKey(KeyCode.W))
+        {
+            soundCollision.radius = 15f;
+        }
+        else
+        {
+            soundCollision.radius = 0f;
+        }
     }
 }
