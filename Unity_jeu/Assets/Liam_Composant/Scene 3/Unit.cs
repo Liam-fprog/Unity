@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Unit: MonoBehaviour
+public class Unit : MonoBehaviour
 {
     const float minPathUpdateTime = .2f;
     const float pathUpadateMoveThreshold = .5f;
@@ -45,10 +45,19 @@ public class Unit: MonoBehaviour
                 PathRequestManager.RequestPath(new PathRequest(transform.position, target.position, OnPathFound));
                 targetPosOld = target.position;
             }
-            
-            
+
+
         }
     }
+
+    public void ForceRepath()
+    {
+        PathRequestManager.RequestPath(
+            new PathRequest(transform.position, target.position, OnPathFound)
+        );
+    }
+
+
     IEnumerator FollowPath()
     {
 
