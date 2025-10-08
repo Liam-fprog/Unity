@@ -1,19 +1,16 @@
 using UnityEngine;
-using UnityEngine.AI;
 using System.Collections;
 
-public class MonsterCollision : MonoBehaviour
+public class MonsterCollisionHandler : MonoBehaviour
 {
     public float ForceProjection;
     public float Duree;
-    public NavMeshAgent agent;
     public Rigidbody rb;
     private bool isProjete = false;
 
     private void Start()
     {
-        if (agent == null) agent = GetComponent<NavMeshAgent>();
-        if (rb == null) rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -40,7 +37,6 @@ public class MonsterCollision : MonoBehaviour
     private IEnumerator RepousseMonster()
     {
         isProjete = true;
-        agent.enabled = false;   //arrêt pathfinding
         rb.isKinematic = false;
         rb.AddForce(Vector3.up * ForceProjection, ForceMode.Impulse);
         Debug.Log("Monstre repoussé");
@@ -48,7 +44,6 @@ public class MonsterCollision : MonoBehaviour
         Debug.Log("Monstre retombe");
         yield return new WaitUntil(() => Mathf.Abs(rb.linearVelocity.y) < 0.1f);
         rb.isKinematic = true;
-        agent.enabled = true;
         Debug.Log("Monstre repart");
         isProjete = false;
     }
