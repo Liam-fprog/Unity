@@ -37,18 +37,14 @@ public class MonsterCollisionHandler : MonoBehaviour
     private IEnumerator RepousseMonster()
     {
         isProjete = true;
-        rb.linearVelocity = Vector3.zero;
+        rb.isKinematic = false;
         rb.AddForce(Vector3.up * ForceProjection, ForceMode.Impulse);
-        Debug.Log("Monstre repousse");
+        Debug.Log("Monstre repoussé");
         yield return new WaitForSeconds(Duree);
-        yield return new WaitUntil(() => Mathf.Abs(rb.linearVelocity.y) < 0.1f && IsGrounded());
-        isProjete = false;
+        Debug.Log("Monstre retombe");
+        yield return new WaitUntil(() => Mathf.Abs(rb.linearVelocity.y) < 0.1f);
+        rb.isKinematic = true;
         Debug.Log("Monstre repart");
-    }
-
-    private bool IsGrounded()
-    {
-        //raycast pour savoir si monstre au sol
-        return Physics.Raycast(transform.position, Vector3.down, 1.1f);
+        isProjete = false;
     }
 }
