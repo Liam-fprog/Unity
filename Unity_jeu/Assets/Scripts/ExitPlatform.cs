@@ -20,19 +20,19 @@ public class ElevatorPlatform : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (hasActivated) return; // évite double déclenchement
+        if (hasActivated) return; // ï¿½vite double dï¿½clenchement
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerInventory inventory = collision.gameObject.GetComponent<PlayerInventory>();
             if (inventory != null && inventory.keyCount == NbKeysRequired)
             {
-                Debug.Log("Ascenseur activé");
+                Debug.Log("Ascenseur activï¿½");
                 StartCoroutine(RiseElevator(collision.transform));
                 hasActivated = true;
             }
             else
             {
-                Debug.Log("Pas assez de clés");
+                Debug.Log("Pas assez de clï¿½s");
             }
         }
     }
@@ -56,7 +56,13 @@ public class ElevatorPlatform : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("Ascenseur arrivé en haut !");
+        Debug.Log("Ascenseur arrivï¿½ en haut !");
+        // DÃ©clencher la victoire
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.TriggerVictory();
+        }
+        
         isRising = false;
         GameManager.Instance.WinGame();
     }

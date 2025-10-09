@@ -9,11 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: b19c6d58380c144399c3f1f904aadcf7
   - enabled: 1
-    path: Assets/Scenes/lab1.unity
-    guid: 2ac89c74aa41e48fdb1cfa5939163369
-  - enabled: 1
-    path: Assets/Scenes/lab2.unity
-    guid: e43aed04ffe3748b5a430cb2185834f2
+    path: Assets/Scenes/Scene_Liam_2.unity
+    guid: c2c4bd5585ff8c24885298dce5d3ee43
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

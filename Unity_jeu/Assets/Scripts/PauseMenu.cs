@@ -27,8 +27,8 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        // Détection de la touche P pour pause
-        if (Input.GetKeyDown(KeyCode.P))
+        // Détection de la touche echap pour pause
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused)
             {
