@@ -58,5 +58,6 @@ public class ElevatorPlatform : MonoBehaviour
 
         Debug.Log("Ascenseur arrivé en haut !");
         isRising = false;
+        GameManager.Instance.WinGame();
     }
 }
