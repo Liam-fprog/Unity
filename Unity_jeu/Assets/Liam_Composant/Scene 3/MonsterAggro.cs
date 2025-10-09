@@ -9,13 +9,17 @@ public class MonsterAggro : MonoBehaviour
     public Transform randomTarget;    // Cible aléatoire (ex: GO avec TargetWander)
     public Transform playerLight;     // Spot Light du joueur (Transform)
 
+    [Header("Audio")]
+    public AudioSource audioSource;   // AudioSource pour le son d'aggro
+    public AudioClip aggroSound;      // Le clip audio à jouer
+
     [Header("Détection par lampe (cône + LOS)")]
     public bool useSpotLightValues = true; // true -> Light.spotAngle & Light.range
     public float coneAngle = 45f;          // utilisé si useSpotLightValues = false
     public float coneRange = 12f;          // utilisé si useSpotLightValues = false
     public LayerMask obstacleMask;         // murs/obstacles qui bloquent la vue
 
-    [Header("Persistance d’aggro")]
+    [Header("Persistance d'aggro")]
     public float aggroPersistSeconds = 5f;
 
     [Header("Debug")]
@@ -26,12 +30,14 @@ public class MonsterAggro : MonoBehaviour
     bool _sphereContact = false;   // -> mis à jour par OnTriggerEnter/Stay/Exit (côté PlayerAggroZone)
     float _lostTimer = 0f;
     bool _hasAggro = false;
+    bool _soundPlayed = false;     // Pour éviter de jouer le son plusieurs fois
     Light _playerSpot;
 
     void Awake()
     {
         if (!unit) unit = GetComponent<Unit>();
         if (playerLight) _playerSpot = playerLight.GetComponent<Light>();
+        if (!audioSource) audioSource = GetComponent<AudioSource>();
 
         var col = GetComponent<Collider>();
         if (col && col.isTrigger)
@@ -43,6 +49,7 @@ public class MonsterAggro : MonoBehaviour
         SetTarget(randomTarget, true);
         _sphereContact = false;
         _hasAggro = false;
+        _soundPlayed = false;
         _lostTimer = 0f;
 
         if (debugLogs) Debug.Log($"[MonsterAggro] {name}: INIT -> target=randomTarget={randomTarget?.name}");
@@ -57,6 +64,13 @@ public class MonsterAggro : MonoBehaviour
 
         if (shouldAggro)
         {
+            // Joue le son seulement lors du PREMIER passage à l'aggro
+            if (!_hasAggro && !_soundPlayed)
+            {
+                PlayAggroSound();
+                _soundPlayed = true;
+            }
+
             if (_currentTarget != player)
             {
                 if (debugLogs) Debug.Log($"[MonsterAggro] {name}: AGGRO -> Player (sphere={_sphereContact}, light={lightContact})");
@@ -74,7 +88,15 @@ public class MonsterAggro : MonoBehaviour
                 {
                     if (debugLogs) Debug.Log($"[MonsterAggro] {name}: Perte d'aggro après {aggroPersistSeconds:F1}s -> RandomTarget");
                     _hasAggro = false;
+                    _soundPlayed = false; // Reset pour la prochaine aggro
                     _lostTimer = 0f;
+
+                    // Arrête le son d'aggro
+                    if (audioSource && audioSource.isPlaying)
+                    {
+                        audioSource.Stop();
+                    }
+
                     if (_currentTarget != randomTarget)
                         SetTarget(randomTarget, true);
                 }
@@ -153,6 +175,18 @@ public class MonsterAggro : MonoBehaviour
             return false;
 
         return true;
+    }
+
+    // ============================== Audio ========================================
+
+    void PlayAggroSound()
+    {
+        if (audioSource && aggroSound)
+        {
+            Debug.Log($"[MonsterAggro] {name}: SON JOUÉ ! (_hasAggro={_hasAggro}, _soundPlayed={_soundPlayed})");
+            audioSource.clip = aggroSound;
+            audioSource.Play();
+        }
     }
 
     // ============================== Cible / Path =================================

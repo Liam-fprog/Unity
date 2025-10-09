@@ -29,7 +29,7 @@ public class MonsterCollisionHandler : MonoBehaviour
                 else
                 {
                     Debug.Log("Le monstre a gagné");
-                    GameManager.Instance.GameOver();
+                    GameChrono.Instance.GameOver();
                 }
             }
         }

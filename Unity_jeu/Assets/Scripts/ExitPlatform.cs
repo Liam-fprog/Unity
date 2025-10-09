@@ -64,6 +64,6 @@ public class ElevatorPlatform : MonoBehaviour
         }
         
         isRising = false;
-        GameManager.Instance.WinGame();
+        GameChrono.Instance.WinGame();
     }
 }

@@ -3,9 +3,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class GameManager : MonoBehaviour
+public class GameChrono : MonoBehaviour
 {
-    public static GameManager Instance;
+    public static GameChrono Instance;
 
     public TMP_Text timerText;
     public GameObject winPanel;
