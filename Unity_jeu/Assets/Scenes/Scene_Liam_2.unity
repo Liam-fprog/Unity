@@ -3161,6 +3161,10 @@ PrefabInstance:
       value: "RESTART NEW \nGAME"
       objectReference: {fileID: 0}
     - target: {fileID: 7028008717274684436, guid: f706c4e9a5c8442178454d98d32cf658, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7028008717274684436, guid: f706c4e9a5c8442178454d98d32cf658, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 911822744}
@@ -3217,7 +3221,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3277807432853139089, guid: f45597a6f325963448b78f5b06a90f91, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.2500019
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3277807432853139089, guid: f45597a6f325963448b78f5b06a90f91, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12533,7 +12537,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5601029530266568925, guid: 2b52428c7510f6244afa335804b32c60, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -126.77
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 5601029530266568925, guid: 2b52428c7510f6244afa335804b32c60, type: 3}
       propertyPath: m_LocalPosition.y
@@ -12541,7 +12545,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5601029530266568925, guid: 2b52428c7510f6244afa335804b32c60, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -47.9
+      value: 21.8
       objectReference: {fileID: 0}
     - target: {fileID: 5601029530266568925, guid: 2b52428c7510f6244afa335804b32c60, type: 3}
       propertyPath: m_LocalRotation.w
