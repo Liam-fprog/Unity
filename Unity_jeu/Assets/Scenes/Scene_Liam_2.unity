@@ -3256,8 +3256,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6885033590525468115, guid: f45597a6f325963448b78f5b06a90f91, type: 3}
+      propertyPath: HauteurFinale
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6885033590525468115, guid: f45597a6f325963448b78f5b06a90f91, type: 3}
+      propertyPath: VitesseMontee
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6885033590525468115, guid: f45597a6f325963448b78f5b06a90f91, type: 3}
       propertyPath: NbKeysRequired
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7671485025315787777, guid: f45597a6f325963448b78f5b06a90f91, type: 3}
       propertyPath: m_Name

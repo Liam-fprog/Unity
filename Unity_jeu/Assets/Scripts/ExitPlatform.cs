@@ -24,7 +24,7 @@ public class ElevatorPlatform : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerInventory inventory = collision.gameObject.GetComponent<PlayerInventory>();
-            if (inventory != null && inventory.keyCount == NbKeysRequired)
+            if (inventory != null && inventory.keyCount >= NbKeysRequired)
             {
                 Debug.Log("Ascenseur activ�");
                 StartCoroutine(RiseElevator(collision.transform));
